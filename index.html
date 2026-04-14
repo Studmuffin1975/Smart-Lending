@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Lending | Home Loan Pre-Qualifier</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <p class="eyebrow" data-i18n="eyebrow">Smart Lending</p>
+        <h1 data-i18n="title">Home Loan Pre-Qualifier</h1>
+        <p data-i18n="subtitle">
+          Check in minutes whether your profile could be creditworthy for a mortgage in Mexico.
+        </p>
+        <div class="language-toggle" role="group" aria-label="Language selector">
+          <button id="lang-en" class="active" type="button">English</button>
+          <button id="lang-es" type="button">Español</button>
+        </div>
+      </header>
+
+      <section class="card">
+        <form id="prequal-form" novalidate>
+          <div class="form-row">
+            <label for="fullName" data-i18n="nameLabel">Full name</label>
+            <input id="fullName" name="fullName" type="text" required />
+          </div>
+
+          <div class="form-row">
+            <label for="age" data-i18n="ageLabel">Age</label>
+            <input id="age" name="age" type="number" min="18" max="85" required />
+          </div>
+
+          <div class="form-row">
+            <label for="maritalStatus" data-i18n="maritalStatusLabel">Marital status</label>
+            <select id="maritalStatus" name="maritalStatus" required>
+              <option value="" data-i18n="selectPlaceholder">Select an option</option>
+              <option value="single" data-i18n="single">Single</option>
+              <option value="married" data-i18n="married">Married</option>
+              <option value="divorced" data-i18n="divorced">Divorced</option>
+              <option value="widowed" data-i18n="widowed">Widowed</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="employment" data-i18n="employmentLabel">Employment / economic activity</label>
+            <select id="employment" name="employment" required>
+              <option value="" data-i18n="selectPlaceholder">Select an option</option>
+              <option value="formalEmployee" data-i18n="formalEmployee">Formal employee</option>
+              <option value="selfEmployed" data-i18n="selfEmployed">Self-employed</option>
+              <option value="businessOwner" data-i18n="businessOwner">Business owner</option>
+              <option value="informal" data-i18n="informal">Informal worker</option>
+              <option value="unemployed" data-i18n="unemployed">Unemployed</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="debts" data-i18n="debtsLabel">Outstanding monthly debt payments (MXN)</label>
+            <input id="debts" name="debts" type="number" min="0" step="100" required />
+          </div>
+
+          <div class="form-row">
+            <label for="creditHistory" data-i18n="creditHistoryLabel">Credit history</label>
+            <select id="creditHistory" name="creditHistory" required>
+              <option value="" data-i18n="selectPlaceholder">Select an option</option>
+              <option value="excellent" data-i18n="excellent">Excellent (no missed payments)</option>
+              <option value="good" data-i18n="good">Good (few minor delays)</option>
+              <option value="fair" data-i18n="fair">Fair (several delays)</option>
+              <option value="poor" data-i18n="poor">Poor (defaults/collections)</option>
+              <option value="none" data-i18n="none">No credit history</option>
+            </select>
+          </div>
+
+          <button type="submit" class="cta" data-i18n="submit">Evaluate profile</button>
+        </form>
+
+        <section id="result" class="result" aria-live="polite"></section>
+      </section>
+
+      <footer class="disclaimer" data-i18n="disclaimer">
+        This tool is an informational pre-screen only and is not a loan approval. Final decision depends on full bank underwriting and Mexican regulations.
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
