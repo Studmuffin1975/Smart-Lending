@@ -1,0 +1,134 @@
+:root {
+  --bg: #f5f8ff;
+  --text: #10213b;
+  --card: #ffffff;
+  --primary: #155eef;
+  --success: #067647;
+  --warn: #b54708;
+  --danger: #b42318;
+  --border: #d0d5dd;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background: linear-gradient(150deg, #f7faff 0%, #edf3ff 100%);
+}
+
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+.hero {
+  margin-bottom: 1.25rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #1f4fd6;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 0.25rem 0 0.75rem;
+}
+
+.language-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-top: 0.75rem;
+}
+
+.language-toggle button {
+  border: 0;
+  padding: 0.5rem 0.8rem;
+  background: #fff;
+  cursor: pointer;
+}
+
+.language-toggle button.active {
+  background: var(--primary);
+  color: white;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #e4e7ec;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.9rem;
+}
+
+label {
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+
+input,
+select,
+button {
+  font: inherit;
+}
+
+input,
+select {
+  border: 1px solid var(--border);
+  border-radius: 0.45rem;
+  padding: 0.6rem;
+}
+
+.cta {
+  width: 100%;
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.result {
+  margin-top: 1rem;
+  padding: 0.85rem;
+  border-radius: 0.5rem;
+  background: #f8f9fc;
+  min-height: 2.5rem;
+}
+
+.result.success {
+  border: 1px solid #a6f4c5;
+  color: var(--success);
+}
+
+.result.warn {
+  border: 1px solid #fedf89;
+  color: var(--warn);
+}
+
+.result.danger {
+  border: 1px solid #fecdca;
+  color: var(--danger);
+}
+
+.disclaimer {
+  margin-top: 0.9rem;
+  font-size: 0.85rem;
+  color: #344054;
+}
