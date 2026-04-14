@@ -1,52 +1,15 @@
 const translations = {
-  en: {
-    eyebrow: 'Smart Lending',
-    title: 'Home Loan Pre-Qualifier',
-    subtitle:
-      'Check in minutes whether your profile could be creditworthy for a mortgage in Mexico.',
-    nameLabel: 'Full name',
-    ageLabel: 'Age',
-    maritalStatusLabel: 'Marital status',
-    employmentLabel: 'Employment / economic activity',
-    debtsLabel: 'Outstanding monthly debt payments (MXN)',
-    creditHistoryLabel: 'Credit history',
-    selectPlaceholder: 'Select an option',
-    single: 'Single',
-    married: 'Married',
-    divorced: 'Divorced',
-    widowed: 'Widowed',
-    formalEmployee: 'Formal employee',
-    selfEmployed: 'Self-employed',
-    businessOwner: 'Business owner',
-    informal: 'Informal worker',
-    unemployed: 'Unemployed',
-    excellent: 'Excellent (no missed payments)',
-    good: 'Good (few minor delays)',
-    fair: 'Fair (several delays)',
-    poor: 'Poor (defaults/collections)',
-    none: 'No credit history',
-    submit: 'Evaluate profile',
-    disclaimer:
-      'This tool is an informational pre-screen only and is not a loan approval. Final decision depends on full bank underwriting and Mexican regulations.',
-    validation: 'Please complete all fields with valid values.',
-    likely:
-      'Likely pre-qualifiable: your profile appears aligned with common Mexican banking credit criteria.',
-    maybe:
-      'Borderline profile: you may qualify with stronger documentation, lower debt, or a co-borrower.',
-    unlikely:
-      'Low pre-qualification probability under typical bank criteria in Mexico at this time.',
-    scoreLabel: 'Estimated profile score'
-  },
   es: {
-    eyebrow: 'Smart Lending',
-    title: 'Precalificador de Crédito Hipotecario',
+    kicker: 'Evaluación preliminar para crédito hipotecario en México',
+    title: 'Precalificador de crédito hipotecario',
     subtitle:
-      'Evalúa en minutos si tu perfil podría ser sujeto de crédito hipotecario en México.',
+      'Completa tus datos para conocer si tu perfil podría ser sujeto de crédito con criterios bancarios comunes en México.',
     nameLabel: 'Nombre completo',
     ageLabel: 'Edad',
     maritalStatusLabel: 'Estado civil',
-    employmentLabel: 'Empleo / actividad económica',
-    debtsLabel: 'Pagos mensuales de deudas vigentes (MXN)',
+    employmentLabel: 'Empleo o actividad económica',
+    monthlyIncomeLabel: 'Ingreso mensual antes de impuestos (MXN)',
+    debtsLabel: 'Deudas mensuales vigentes (MXN)',
     creditHistoryLabel: 'Historial crediticio',
     selectPlaceholder: 'Selecciona una opción',
     single: 'Soltero/a',
@@ -65,7 +28,7 @@ const translations = {
     none: 'Sin historial crediticio',
     submit: 'Evaluar perfil',
     disclaimer:
-      'Esta herramienta es solo informativa y no constituye aprobación de crédito. La decisión final depende del análisis integral del banco y la regulación mexicana.',
+      'Esta herramienta es informativa y no constituye aprobación de crédito. La decisión final depende del análisis del banco y la regulación mexicana.',
     validation: 'Completa todos los campos con valores válidos.',
     likely:
       'Probable precalificación: tu perfil parece alineado con criterios bancarios comunes en México.',
@@ -74,12 +37,56 @@ const translations = {
     unlikely:
       'Baja probabilidad de precalificación bajo criterios bancarios típicos en México actualmente.',
     scoreLabel: 'Puntaje estimado de perfil'
+  },
+  en: {
+    kicker: 'Initial pre-assessment for home loans in Mexico',
+    title: 'Home loan pre-qualifier',
+    subtitle:
+      'Complete your information to see if your profile could be creditworthy under common banking criteria in Mexico.',
+    nameLabel: 'Full name',
+    ageLabel: 'Age',
+    maritalStatusLabel: 'Marital status',
+    employmentLabel: 'Employment or economic activity',
+    monthlyIncomeLabel: 'Monthly income before taxes (MXN)',
+    debtsLabel: 'Outstanding monthly debts (MXN)',
+    creditHistoryLabel: 'Credit history',
+    selectPlaceholder: 'Select an option',
+    single: 'Single',
+    married: 'Married',
+    divorced: 'Divorced',
+    widowed: 'Widowed',
+    formalEmployee: 'Formal employee',
+    selfEmployed: 'Self-employed',
+    businessOwner: 'Business owner',
+    informal: 'Informal worker',
+    unemployed: 'Unemployed',
+    excellent: 'Excellent (no missed payments)',
+    good: 'Good (few minor delays)',
+    fair: 'Fair (several delays)',
+    poor: 'Poor (defaults/collections)',
+    none: 'No credit history',
+    submit: 'Evaluate profile',
+    disclaimer:
+      'This tool is informational only and is not a loan approval. Final decisions depend on full bank review and Mexican regulation.',
+    validation: 'Please complete all fields with valid values.',
+    likely:
+      'Likely pre-qualifiable: your profile appears aligned with common banking criteria in Mexico.',
+    maybe:
+      'Borderline profile: you may qualify with stronger documentation, lower debt, or a co-borrower.',
+    unlikely: 'Low pre-qualification probability under typical bank criteria in Mexico right now.',
+    scoreLabel: 'Estimated profile score'
   }
 };
 
-let currentLang = 'en';
+let currentLang = 'es';
 const form = document.getElementById('prequal-form');
 const result = document.getElementById('result');
+
+const outcomeByClass = {
+  success: 'likely',
+  warn: 'maybe',
+  danger: 'unlikely'
+};
 
 function t(key) {
   return translations[currentLang][key] ?? key;
@@ -97,16 +104,17 @@ function setLanguage(lang) {
   document.getElementById('lang-en').classList.toggle('active', lang === 'en');
   document.getElementById('lang-es').classList.toggle('active', lang === 'es');
 
-  if (result.dataset.key) {
-    updateResult(result.dataset.key, result.dataset.score);
+  if (result.dataset.resultClass) {
+    paintResult(result.dataset.resultClass, Number(result.dataset.score));
   }
 }
 
-function updateResult(key, score) {
-  result.className = `result ${key}`;
-  result.dataset.key = key;
-  result.dataset.score = score;
-  result.textContent = `${t('scoreLabel')}: ${score} — ${t(key)}`;
+function paintResult(resultClass, score) {
+  const messageKey = outcomeByClass[resultClass] || 'unlikely';
+  result.className = `result ${resultClass}`;
+  result.dataset.resultClass = resultClass;
+  result.dataset.score = String(score);
+  result.textContent = `${t('scoreLabel')}: ${score} — ${t(messageKey)}`;
 }
 
 function calculateScore(values) {
@@ -119,10 +127,19 @@ function calculateScore(values) {
   else if (values.employment === 'selfEmployed') score += 18;
   else if (values.employment === 'informal') score += 8;
 
+  const income = Number(values.monthlyIncome);
+  if (income >= 60000) score += 20;
+  else if (income >= 30000) score += 14;
+  else if (income >= 15000) score += 8;
+
   const debt = Number(values.debts);
   if (debt <= 5000) score += 20;
   else if (debt <= 15000) score += 12;
   else score += 4;
+
+  const dti = income > 0 ? debt / income : 1;
+  if (dti <= 0.3) score += 10;
+  else if (dti <= 0.45) score += 5;
 
   const historyScores = {
     excellent: 30,
@@ -150,22 +167,23 @@ form.addEventListener('submit', (event) => {
     values.maritalStatus &&
     values.employment &&
     values.creditHistory &&
+    values.monthlyIncome !== '' &&
     values.debts !== '';
 
   if (!valid) {
     result.className = 'result danger';
     result.textContent = t('validation');
-    result.dataset.key = 'validation';
-    result.dataset.score = '';
+    result.dataset.resultClass = 'danger';
+    result.dataset.score = '0';
     return;
   }
 
   const score = calculateScore(values);
-  if (score >= 70) updateResult('success', score);
-  else if (score >= 45) updateResult('warn', score);
-  else updateResult('danger', score);
+  if (score >= 70) paintResult('success', score);
+  else if (score >= 45) paintResult('warn', score);
+  else paintResult('danger', score);
 });
 
 document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
 document.getElementById('lang-es').addEventListener('click', () => setLanguage('es'));
-setLanguage('en');
+setLanguage('es');

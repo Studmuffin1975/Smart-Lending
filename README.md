@@ -8,6 +8,6 @@ Open `index.html` in your browser.
 
 ## What it does
 
-- Collects: name, age, marital status, employment/economic activity, outstanding debts, and credit history.
+- Collects: name, age, marital status, employment/economic activity, monthly income before taxes, outstanding debts, and credit history.
 - Evaluates profile with a transparent score heuristic (informational pre-screen only).
 - Supports instant language switching between English and Spanish.
